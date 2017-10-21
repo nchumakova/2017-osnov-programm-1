@@ -18,7 +18,8 @@ for line in lines:
         
     # split the line into a list of cells in the row
     row = line.split('\t')
-
+    if '.' in row[0] or '-' in row[0]:
+        continue
     # get the tag from the 4th column and put it in a variable
     tag = row[3]
     if tag == '_':
@@ -44,12 +45,11 @@ for line in lines:
     words[word][tag] = words[word][tag] + 1
     total = total + 1
     #print(tag_count[tag], tag, row)
-print()
 # {'ADJ': 2, 'NOUN': 5, 'NUM': 2, '_': 80, 'PROPN': 3}                                                       
 
 for tag in tag_count:
     freq = tag_count[tag]/total
-    print(tag, tag_count[tag], freq)
+    print('%.2f\t%d\t%s\t%s' % (freq, tag_count[tag], tag, '_'))
 
 # for each of the words in the matrix
 for word in words:
@@ -57,3 +57,6 @@ for word in words:
     for tag in words[word]:
         freq = words[word][tag]/words_of_word[word]
         print('%.2f\t%d\t%s\t%s' % (freq, words[word][tag], tag, word))
+        # %.2f = floating point number with 2 degrees of precision = 0.03
+        # %d = integer
+        # %s = string
